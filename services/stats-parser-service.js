@@ -30,19 +30,22 @@ class StatsParserService {
     if (SIMPLE_CATEGORIES.includes(category)) {
       return { [category]: _.parseInt(value) };
     } else if (PERCENTAGE_CATEGORIES.includes(category)) {
-      const values = value.split("-");
-      const madeValue = _.parseInt(values[0]);
-      const attemptsValue = values[1];
-      const madeCategory = `${category}M`;
-      const attemptsCategory = `${category}A`;
-      const pctCategory = `${category}P`;
-      const pctValue = _.divide(madeValue, attemptsValue) || 0;
-      return {
-        [madeCategory]: madeValue,
-        [attemptsCategory]: attemptsValue,
-        [pctCategory]: pctValue,
-      };
+      const values = _.split(value, "-");
+      if (!_.isEmpty(values)) {
+        const madeValue = _.parseInt(values[0]);
+        const attemptsValue = values[1];
+        const madeCategory = `${category}M`;
+        const attemptsCategory = `${category}A`;
+        const pctCategory = `${category}P`;
+        const pctValue = _.divide(madeValue, attemptsValue) || 0;
+        return {
+          [madeCategory]: madeValue,
+          [attemptsCategory]: attemptsValue,
+          [pctCategory]: pctValue,
+        };
+      }
     }
+    return {};
   }
 }
 
