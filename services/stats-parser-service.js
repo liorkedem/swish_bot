@@ -1,5 +1,6 @@
-const sdv = require("sportsdataverse");
+const _ = require("lodash");
 
+const PERCENTAGE_CATEGORIES = ["FG", "3PT", "FT"];
 const SIMPLE_CATEGORIES = [
   "MIN",
   "OREB",
@@ -14,24 +15,33 @@ const SIMPLE_CATEGORIES = [
   "PTS",
 ];
 
-const PERCENTAGE_CATEGORIES = ["FG", "3PT", "FT"];
-
 class StatsParserService {
   static parsePlayerBoxScore(categories, values) {
-    const boxScore = {};
+    let boxScore = {};
+    for (let i = 0; i < categories.length; i++) {
+      const category = categories[i];
+      const value = values[i];
+      boxScore = { ...boxScore, ...this.parseCategory(category, value) };
+    }
+    return boxScore;
   }
 
   static parseCategory(category, value) {
     if (SIMPLE_CATEGORIES.includes(category)) {
-      return { [category]: Parse.invalue };
+      return { [category]: _.parseInt(value) };
     } else if (PERCENTAGE_CATEGORIES.includes(category)) {
       const values = value.split("-");
-      const madeValue = values[0];
+      const madeValue = _.parseInt(values[0]);
       const attemptsValue = values[1];
-      const madeCategory = `${category}M`
-      const attemptsCategory = `${category}A`
-      const pctCategory = `${category}P`
-      const pctValue = madeValue/
+      const madeCategory = `${category}M`;
+      const attemptsCategory = `${category}A`;
+      const pctCategory = `${category}P`;
+      const pctValue = _.divide(madeValue, attemptsValue) || 0;
+      return {
+        [madeCategory]: madeValue,
+        [attemptsCategory]: attemptsValue,
+        [pctCategory]: pctValue,
+      };
     }
   }
 }
