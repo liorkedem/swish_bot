@@ -22,7 +22,7 @@ class StatsCalculationService {
         dfs += dfsCategory * value;
       }
     }
-    return boxScore;
+    return dfs;
   }
 }
 

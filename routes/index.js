@@ -1,15 +1,17 @@
 const _ = require("lodash");
 const express = require("express");
 const router = express.Router();
-const GamesController = require("../controllers/games-controller");
+const ScheduleController = require("../controllers/schedule-controller");
+const GameController = require("../controllers/game-controller");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
-router.get("/get-ended-games", GamesController.getEndedGames);
-router.get("/get-non-ended-games", GamesController.getNonEndedGames);
+router.get("/get-ended-games", ScheduleController.getEndedGames);
+router.get("/get-non-ended-games", ScheduleController.getNonEndedGames);
+router.get("/get-game-top-players", GameController.getGameTopPlayers);
 
 // router.get("/pbp", getGame);
 

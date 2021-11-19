@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const ScheduleService = require("../services/schedule-service");
 
-class GamesController {
+class ScheduleController {
   static async getEndedGames(req, res) {
     const { date } = req.query;
     const { year, month, day } = parseDateInput(date);
@@ -30,4 +30,4 @@ function parseDateInput(dateString) {
   const day = dateParts[2];
   return { year, month, day };
 }
-module.exports = GamesController;
+module.exports = ScheduleController;
