@@ -37,7 +37,7 @@ class StatsParserService {
         const madeCategory = `${category}M`;
         const attemptsCategory = `${category}A`;
         const pctCategory = `${category}P`;
-        const pctValue = _.divide(madeValue, attemptsValue) || 0;
+        const pctValue = _.round(_.divide(madeValue, attemptsValue) || 0, 2);
         return {
           [madeCategory]: madeValue,
           [attemptsCategory]: attemptsValue,
