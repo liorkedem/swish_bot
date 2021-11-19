@@ -16,7 +16,10 @@ class StatsParserService {
 
     boxScore["2PTA"] = _.subtract(boxScore.FGA, boxScore["3PTA"]);
     boxScore["2PTM"] = _.subtract(boxScore.FGM, boxScore["3PTM"]);
-    boxScore["2PTP"] = _.divide(boxScore["2PTM"], boxScore["2PTA"]) || 0;
+    boxScore["2PTP"] = _.round(
+      _.divide(boxScore["2PTM"], boxScore["2PTA"]) || 0,
+      2
+    );
 
     return boxScore;
   }

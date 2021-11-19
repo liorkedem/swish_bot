@@ -30,7 +30,7 @@ class StatsCalculationService {
         roto8CatValue += roto8Category * value;
       }
     }
-    return roto8CatValue;
+    return _.round(roto8CatValue, 2);
   }
 
   static calculateRoto9Cat(categories, values) {
@@ -43,16 +43,20 @@ class StatsCalculationService {
         roto9CatValue += roto9Category * value;
       }
     }
-    return roto9CatValue;
+
+    return _.round(roto9CatValue, 2);
   }
 
   static convertPercentToFixed(attempts, percent, category) {
     const bounds = PCT_BOUNDS[category];
+    let fixedValue;
     if (percent < bounds.MIN) {
-      return (bounds.MIN - percent) * -1 * attempts * 2;
+      fixedValue = (bounds.MIN - percent) * -1 * attempts * 2;
     } else {
-      return (percent - bounds.MIN) * attempts * 2;
+      fixedValue = (percent - bounds.MIN) * attempts * 2;
     }
+
+    return _.round(fixedValue, 2);
   }
 }
 
