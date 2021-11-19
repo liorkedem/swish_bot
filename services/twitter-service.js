@@ -10,15 +10,15 @@ class TwitterService {
       access_token_secret: "HitT7NdFdf5ZkGyJ7q86Gn9DvkSSMapNYbiHvBwa9DRP5",
     });
 
-    client.post(
-      "statuses/update",
-      { status: message },
-      function (error, tweet, response) {
-        if (error) throw error;
-        console.log(tweet); // Tweet body.
-        console.log(response); // Raw response object.
-      }
-    );
+    // client.post(
+    //   "statuses/update",
+    //   { status: message },
+    //   function (error, tweet, response) {
+    //     if (error) throw error;
+    //     console.log(tweet); // Tweet body.
+    //     console.log(response); // Raw response object.
+    //   }
+    // );
   }
 }
 
