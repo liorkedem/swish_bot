@@ -18,7 +18,7 @@ class StatsCalculationService {
       const category = categories[i];
       const value = values[i];
       const dfsCategory = DFS_RATIO[category];
-      if (dfsCategory) {
+      if (dfsCategory && value) {
         dfs += dfsCategory * value;
       }
     }
