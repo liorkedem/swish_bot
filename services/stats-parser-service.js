@@ -23,6 +23,11 @@ class StatsParserService {
       const value = values[i];
       boxScore = { ...boxScore, ...this.parseCategory(category, value) };
     }
+
+    boxScore["2PTA"] = _.subtract(boxScore.FGA, boxScore["3PTA"]);
+    boxScore["2PTM"] = _.subtract(boxScore.FGM, boxScore["3PTM"]);
+    boxScore["2PTP"] = _.divide(boxScore["2PTM"], boxScore["2PTA"]);
+
     return boxScore;
   }
 
