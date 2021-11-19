@@ -1,19 +1,9 @@
 const _ = require("lodash");
-
-const PERCENTAGE_CATEGORIES = ["FG", "3PT", "FT"];
-const SIMPLE_CATEGORIES = [
-  "MIN",
-  "OREB",
-  "DREB",
-  "REB",
-  "AST",
-  "STL",
-  "BLK",
-  "TO",
-  "PF",
-  "+/-",
-  "PTS",
-];
+const StatsCalculationService = require("./stats-calculation-service");
+const {
+  PERCENTAGE_CATEGORIES,
+  SIMPLE_CATEGORIES,
+} = require("../constants/stats-constants");
 
 class StatsParserService {
   static parsePlayerBoxScore(categories, values) {
@@ -43,10 +33,17 @@ class StatsParserService {
         const attemptsCategory = `${category}A`;
         const pctCategory = `${category}P`;
         const pctValue = _.round(_.divide(madeValue, attemptsValue) || 0, 2);
+        const fixedCategory = `${pctCategory}FIXED`;
+        const fixedValue = StatsCalculationService.convertPercentToFixed(
+          attemptsValue,
+          pctValue,
+          pctCategory
+        );
         return {
           [madeCategory]: madeValue,
           [attemptsCategory]: attemptsValue,
           [pctCategory]: pctValue,
+          [fixedCategory]: fixedValue,
         };
       }
     }

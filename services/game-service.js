@@ -33,6 +33,14 @@ function gatGamePlayerBoxScore(athlete, categories) {
   );
 
   playerBoxScore.DFS = StatsCalculationService.calculateDFS(categories, values);
+  playerBoxScore.ROTO8 = StatsCalculationService.calculateRoto8Cat(
+    categories,
+    values
+  );
+  playerBoxScore.ROTO9 = StatsCalculationService.calculateRoto9Cat(
+    categories,
+    values
+  );
   return playerBoxScore;
 }
 function getStatsCategories(gamePlayByPLay) {
