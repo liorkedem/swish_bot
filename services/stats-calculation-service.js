@@ -17,7 +17,7 @@ class StatsCalculationService {
         dfs += dfsCategory * value;
       }
     }
-    return dfs;
+    return _.round(dfs, 2);
   }
 
   static calculateRoto8Cat(categories, values) {
