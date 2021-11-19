@@ -1,6 +1,6 @@
 const _ = require("lodash");
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const GameService = require("../services/game-service");
 const TwitterService = require("../services/twitter-service");
 
