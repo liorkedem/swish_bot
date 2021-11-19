@@ -48,10 +48,10 @@ class StatsCalculationService {
 
   static convertPercentToFixed(attempts, percent, category) {
     const bounds = PCT_BOUNDS[category];
-    if (percent < bounds.low) {
-      return (bounds.low - percent) * -1 * attempts * 2;
+    if (percent < bounds.MIN) {
+      return (bounds.MIN - percent) * -1 * attempts * 2;
     } else {
-      return (percent - bounds.low) * attempts * 2;
+      return (percent - bounds.MIN) * attempts * 2;
     }
   }
 }

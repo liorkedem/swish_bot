@@ -40,9 +40,22 @@ const ROTO_9CAT_RATIO = {
 };
 
 const PCT_BOUNDS = {
-  "3PTP": { low: 0.364, high: 0.48 },
-  FGP: { low: 0.458, high: 0.59 },
-  FTP: { low: 0.782, high: 1.0 },
+  "3PTP": { MIN: 0.364, MAX: 0.48 },
+  FGP: { MIN: 0.458, MAX: 0.59 },
+  FTP: { MIN: 0.782, MAX: 1.0 },
+};
+
+const PERFORMANCE_THRESHOLDS = {
+  DFS: {
+    GOOD: 25,
+    GREAT: 40,
+    BEST: 50,
+  },
+  ROTO9: {
+    GOOD: 60,
+    GREAT: 80,
+    BEST: 100,
+  },
 };
 
 module.exports = {
@@ -52,4 +65,5 @@ module.exports = {
   ROTO_8CAT_RATIO,
   ROTO_9CAT_RATIO,
   PCT_BOUNDS,
+  PERFORMANCE_THRESHOLDS,
 };
