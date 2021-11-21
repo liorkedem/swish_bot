@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const GameService = require("../services/game-service");
+const GameRecapsService = require("../services/game-recaps-service");
 const { PERFORMANCE_THRESHOLDS } = require("../constants/stats-constants");
 
 class GameController {
@@ -13,7 +14,11 @@ class GameController {
       );
     });
 
-    res.json(topPlayers);
+    const playersRecap = _.map(topPlayers, (player) =>
+      GameRecapsService.recapGame(player)
+    );
+
+    res.json(playersRecap);
   }
 }
 
