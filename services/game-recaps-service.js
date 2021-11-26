@@ -5,10 +5,9 @@ const {
 
 class GameRecapsService {
   static recapGame(player) {
-    const props = {};
-    // const compiled = _.template(AMAZING_GAME_TEMPLATE[0]);
-    // return compiled(props);
-    return JSON.stringify(player);
+    console.log("--------", player);
+    const compiled = _.template(AMAZING_GAME_TEMPLATE[0]);
+    return compiled(player);
   }
 }
 
