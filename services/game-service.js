@@ -12,9 +12,12 @@ class GameService {
     for (const teamAthletes of gameAthletes) {
       for (const athlete of teamAthletes) {
         const playerBoxScore = gatGamePlayerBoxScore(athlete, statsCategories);
-        playerBoxScore.NAME = athlete.athlete.displayName;
-        const playerKey = playerBoxScore.NAME;
-        results = { ...results, [playerKey]: playerBoxScore };
+        const playerName = athlete.athlete.displayName;
+        const playerKey = playerName;
+        results = {
+          ...results,
+          [playerKey]: playerBoxScore,
+        };
       }
     }
     return results;

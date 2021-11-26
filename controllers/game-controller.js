@@ -7,18 +7,19 @@ class GameController {
   static async getGameTopPlayers(req, res) {
     const { gameId } = req.query;
     const playersBoxScore = await GameService.gatGamePlayersBoxScore(gameId);
-    const topPlayers = _.pickBy(playersBoxScore, (player) => {
+    const topPlayersBoxScore = _.pickBy(playersBoxScore, (playerBoxScore) => {
       return (
-        player.DFS >= PERFORMANCE_THRESHOLDS.DFS.GOOD ||
-        player.ROTO9 >= PERFORMANCE_THRESHOLDS.ROTO9.GOOD
+        playerBoxScore.DFS >= PERFORMANCE_THRESHOLDS.DFS.GOOD ||
+        playerBoxScore.ROTO9 >= PERFORMANCE_THRESHOLDS.ROTO9.GOOD
       );
     });
 
-    const playersRecap = _.map(topPlayers, (player) =>
-      GameRecapsService.recapGame(player)
-    );
+    const recaps = [];
+    for (const [playerName, boxScore] of Object.entries(topPlayersBoxScore)) {
+      recaps.push(GameRecapsService.recapGame({ playerName, boxScore }));
+    }
 
-    res.json(playersRecap);
+    res.json(recaps);
   }
 }
 

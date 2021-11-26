@@ -1,5 +1,5 @@
 const AMAZING_GAME_TEMPLATE = [
-  "${ NAME } popped off for a ${ PTS } points over ${ MIN } minutes, adding ${ FGM } fields goals, ${ REB } rebounds, ${ AST } assists and ${ STL } steals.",
+  "${ PLAYER_NAME } popped off for a ${ PTS_PHRASE } over ${ MIN_PHRASE }, adding ${ REB_PHRASE }, ${ AST_PHRASE } and ${ STL_PHRASE }.",
 ];
 
 module.exports = { AMAZING_GAME_TEMPLATE };
