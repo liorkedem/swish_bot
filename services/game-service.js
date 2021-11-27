@@ -4,7 +4,7 @@ const StatsCalculationService = require("./stats-calculation-service");
 const StatsParserService = require("./stats-parser-service");
 
 class GameService {
-  static async gatGamePlayersBoxScore(gameId) {
+  static async getGamePlayersBoxScore(gameId) {
     const gamePlayByPLay = await gatGamePlayByPLay(gameId);
     const gameAthletes = getGameAthletes(gamePlayByPLay);
     const statsCategories = getStatsCategories(gamePlayByPLay);
@@ -21,6 +21,11 @@ class GameService {
       }
     }
     return results;
+  }
+
+  static async getGameBoxScore(gameId) {
+    const gamePlayByPLay = await gatGamePlayByPLay(gameId);
+    return getGameCompetitors(gamePlayByPLay);
   }
 }
 
@@ -58,6 +63,10 @@ function getGameAthletes(gamePlayByPLay) {
     _.get(gamePlayByPLay, "boxScore.players[1].statistics[0].athletes")
   );
   return result;
+}
+
+function getGameCompetitors(gamePlayByPLay) {
+  return _.get(gamePlayByPLay, "competitions[0].competitors");
 }
 
 module.exports = GameService;

@@ -47,7 +47,7 @@ const PCT_BOUNDS = {
 
 const PERFORMANCE_THRESHOLDS = {
   DFS: {
-    GOOD: 25,
+    GOOD: 30,
     GREAT: 40,
     BEST: 50,
   },

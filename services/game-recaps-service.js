@@ -6,8 +6,8 @@ const {
 const { THESAURUS_TREE } = require("../constants/thesaurus-constants");
 
 class GameRecapsService {
-  static recapGame({ playerName, boxScore }) {
-    return generateBasicRecap({ playerName, boxScore });
+  static recapGame({ player, playerBoxScore, gameBoxScore }) {
+    return generateBasicRecap({ player, playerBoxScore, gameBoxScore });
   }
 }
 
@@ -18,17 +18,57 @@ function generatePhrase(category, value) {
   }
 }
 
-function generateBasicRecap({ playerName, boxScore }) {
+function generateBasicRecap2({ player, playerBoxScore }) {
   const statsPhrases = [];
   for (const category of Object.keys(THESAURUS_TREE)) {
-    const value = boxScore[category];
+    const value = playerBoxScore[category];
     const phrase = generatePhrase(category, value);
     if (phrase) {
       statsPhrases.push(phrase);
     }
   }
 
-  return `${playerName} (${statsPhrases.join(", ")})`;
+  return `${player.fullName} (${statsPhrases.join(", ")})`;
+}
+
+function generateBasicRecap({ player, playerBoxScore, gameBoxScore }) {
+  const statsPhrases = [];
+  for (const category of Object.keys(THESAURUS_TREE)) {
+    const value = playerBoxScore[category];
+    const phrase = generatePhrase(category, value);
+    if (phrase) {
+      statsPhrases.push(phrase);
+    }
+  }
+
+  const playerName = _.get(player, "fullName");
+  const position = _.get(player, "info.commonPlayerInfo[0].position");
+  const teamAbbreviation = _.get(
+    player,
+    "info.commonPlayerInfo[0].teamAbbreviation"
+  );
+
+  const connectionWord = _.sample(["had", "erupted for", "exploded for"]);
+  const playerTeamBoxScore = _.find(
+    gameBoxScore,
+    (side) => _.get(side, "team.abbreviation") === teamAbbreviation
+  );
+  const playerTeamGameResult = _.get(playerTeamBoxScore, "winner")
+    ? "win"
+    : "lose";
+
+  const opponentTeamBoxScore = _.find(
+    gameBoxScore,
+    (side) => _.get(side, "team.abbreviation") !== teamAbbreviation
+  );
+
+  const statsPhrase = _.slice(statsPhrases, 0, statsPhrases.length - 1)
+    .join(", ")
+    .concat(" & ", _.last(statsPhrases));
+
+  const opponentTeam = _.get(opponentTeamBoxScore, "team.displayName");
+
+  return `${playerName} (${position}, ${teamAbbreviation}) ${connectionWord} ${statsPhrase} in a ${playerTeamGameResult} against the ${opponentTeam}`;
 }
 
 module.exports = GameRecapsService;

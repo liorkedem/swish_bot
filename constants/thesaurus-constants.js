@@ -1,5 +1,5 @@
 const THESAURUS_TREE = {
-  MIN: ["minute"],
+  // MIN: ["minute"],
   PTS: ["point"],
   REB: ["rebound", "board"],
   AST: ["assist", "dime"],
