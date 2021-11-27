@@ -1,31 +1,36 @@
 const _ = require("lodash");
-var express = require("express");
-var router = express.Router();
-const GameService = require("../services/game-service");
-const TwitterService = require("../services/twitter-service");
+const express = require("express");
+const router = express.Router();
+const ScheduleController = require("../controllers/schedule-controller");
+const GameController = require("../controllers/game-controller");
+const PlayerController = require("../controllers/player-controller");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
 
-router.get("/pbp", getGame);
+router.get("/get-ended-games", ScheduleController.getEndedGames);
+router.get("/get-non-ended-games", ScheduleController.getNonEndedGames);
+router.get("/get-game-top-players", GameController.getGameTopPlayers);
+router.get("/get-player", PlayerController.getPlayer);
 
-async function getGame(req, res) {
-  const gameId = 401360016;
-  const result = await GameService.gatPlayersBoxScoreFromGame(gameId);
-  // const topPlayers = result.filter((p) => p.PTS >= 15);
-  const playerKey = "Anthony Davis";
-  const anthonyDavis = result[playerKey];
+// router.get("/pbp", getGame);
 
-  const message =
-    playerKey +
-    " had a great game finishing with: " +
-    JSON.stringify(anthonyDavis);
-
-  await TwitterService.write(message);
-  // res.json(result);
-  res.json(message);
-}
+// async function getEndedGames(req, res) {
+//   // const gameId = 401360016;
+//   // const result = await GameService.gatPlayersBoxScoreFromGame(gameId);
+//   // const result = await GameService.getGamesByDate(2021, 11, 18);
+//   // res.json(result);
+//   // const playerKey = "Anthony Davis";
+//   // const anthonyDavis = result[playerKey];
+//   // const message =
+//   //   playerKey +
+//   //   " had a great game finishing with: " +
+//   //   JSON.stringify(anthonyDavis);
+//   // await TwitterService.write(message);
+//   // res.json(result);
+//   // res.json(message);
+// }
 
 module.exports = router;
