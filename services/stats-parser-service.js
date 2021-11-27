@@ -42,6 +42,7 @@ class StatsParserService {
           pctValue,
           pctCategory
         );
+
         return {
           [madeCategory]: madeValue,
           [attemptsCategory]: attemptsValue,
