@@ -13,6 +13,8 @@
     "jade": "~1.11.0",
     "lodash": "^4.17.21",
     "morgan": "~1.9.1",
+    "nba": "^4.15.0",
+    "pluralize": "^8.0.0",
     "sportsdataverse": "^1.1.4",
     "twitter": "^1.7.1"
   }
