@@ -54,8 +54,8 @@ function generateBasicRecap({ player, playerBoxScore, gameBoxScore }) {
     (side) => _.get(side, "team.abbreviation") === teamAbbreviation
   );
   const playerTeamGameResult = _.get(playerTeamBoxScore, "winner")
-    ? "win"
-    : "lose";
+    ? "won"
+    : "lost to";
 
   const opponentTeamBoxScore = _.find(
     gameBoxScore,
@@ -66,9 +66,12 @@ function generateBasicRecap({ player, playerBoxScore, gameBoxScore }) {
     .join(", ")
     .concat(" & ", _.last(statsPhrases));
 
+  const minutesPhrase = pluralize("minute", playerBoxScore.MIN, true);
+
+  const playerTeam = _.get(playerTeamBoxScore, "team.displayName");
   const opponentTeam = _.get(opponentTeamBoxScore, "team.displayName");
 
-  return `${playerName} (${position}, ${teamAbbreviation}) ${connectionWord} ${statsPhrase} in a ${playerTeamGameResult} against the ${opponentTeam}`;
+  return `${playerName} (${position}, ${teamAbbreviation}) ${connectionWord} ${statsPhrase} in ${minutesPhrase} of game as the ${playerTeam} ${playerTeamGameResult} the ${opponentTeam}`;
 }
 
 module.exports = GameRecapsService;
