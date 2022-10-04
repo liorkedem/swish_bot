@@ -9,6 +9,8 @@ const usersRouter = require("./routes/users");
 
 const app = express();
 
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
