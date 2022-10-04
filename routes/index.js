@@ -4,6 +4,7 @@ const router = express.Router();
 const ScheduleController = require("../controllers/schedule-controller");
 const GameController = require("../controllers/game-controller");
 const PlayerController = require("../controllers/player-controller");
+const BasketballReferenceController = require("../controllers/basketball-reference-controller");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -14,6 +15,7 @@ router.get("/get-ended-games", ScheduleController.getEndedGames);
 router.get("/get-non-ended-games", ScheduleController.getNonEndedGames);
 router.get("/get-game-top-players", GameController.getGameTopPlayers);
 router.get("/get-player", PlayerController.getPlayer);
+router.get("/get-team-players", BasketballReferenceController.getTeamPlayers);
 
 // router.get("/pbp", getGame);
 
