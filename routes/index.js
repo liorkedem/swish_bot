@@ -12,7 +12,8 @@ router.get("/", function (req, res, next) {
 
 router.get("/get-ended-games", ScheduleController.getEndedGames);
 router.get("/get-non-ended-games", ScheduleController.getNonEndedGames);
-router.get("/get-game-top-players", GameController.getGameTopPlayers);
+router.get("/get-game-top-players", GameController.getGamePlayersStats);
+router.get("/get-something", GameController.getSomething);
 router.get("/get-player", PlayerController.getPlayer);
 
 // router.get("/pbp", getGame);
