@@ -16,6 +16,7 @@ router.get("/get-non-ended-games", ScheduleController.getNonEndedGames);
 router.get("/get-game-top-players", GameController.getGameTopPlayers);
 router.get("/get-player", PlayerController.getPlayer);
 router.get("/get-team-players", BasketballReferenceController.getTeamPlayers);
+router.get("/get-daily-leaders", BasketballReferenceController.getDailyLeaders);
 
 // router.get("/pbp", getGame);
 

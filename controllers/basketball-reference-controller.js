@@ -11,6 +11,17 @@ class BasketballReferenceController {
 
     res.json(teamPlayers);
   }
+
+  static async getDailyLeaders(req, res) {
+    const { day, month, year } = req.query;
+    const teamPlayers = await BasketballReferenceService.getDailyLeaders(
+      day,
+      month,
+      year
+    );
+
+    res.json(teamPlayers);
+  }
 }
 
 module.exports = BasketballReferenceController;
