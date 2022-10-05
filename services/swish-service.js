@@ -22,9 +22,9 @@ class SwishService {
         "Content-Type": "application/json",
       },
     };
-    console.log("------------", SWISH_MACHINE_URL, fetchOptions);
-    const response = await fetch(SWISH_MACHINE_URL, fetchOptions);
-    return response.statusText;
+
+    // const response = await fetch(SWISH_MACHINE_URL, fetchOptions);
+    return body;
   }
 }
 

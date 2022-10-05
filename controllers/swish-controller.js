@@ -36,15 +36,23 @@ const TEAM_IDS = [
 
 class SwishController {
   static async addUpdatePlayersBasicInfo(req, res) {
-    const { season } = req.query;
+    const { season, teamId } = req.query;
     let players = {};
 
-    for (const teamId of TEAM_IDS) {
+    if (teamId) {
       const teamPlayers = await BasketballReferenceService.getTeamPlayers(
         teamId,
         season
       );
-      players = { ...players, ...teamPlayers };
+      players = { ...teamPlayers };
+    } else {
+      for (const teamId of TEAM_IDS) {
+        const teamPlayers = await BasketballReferenceService.getTeamPlayers(
+          teamId,
+          season
+        );
+        players = { ...players, ...teamPlayers };
+      }
     }
 
     const result = await SwishService.addUpdatePlayersBasicInfo(players);
