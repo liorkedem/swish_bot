@@ -38,30 +38,33 @@ async function scrapePlayersFromTeamUrl(teamUrl, team) {
   const body = await response.text();
   const $ = cheerio.load(body);
   const listItems = $(".sortable tbody tr");
-  const players = [];
+  const players = {};
   listItems.each((idx, el) => {
     const tableRow = $(el).children("td");
     const id = _.get(tableRow[0], LEVEL_1_HREF_PATH, "")
       .replace("/players/", "")
       .replace(".html", "")
       .split("/")[1];
-    const name = _.get(tableRow[0], LEVEL_2_DATA_PATH);
-    const position = _.get(tableRow[1], LEVEL_1_DATA_PATH);
-    const height = _.get(tableRow[2], LEVEL_1_DATA_PATH);
-    const player = {
-      id,
-      name,
-      position,
-      height,
-      team,
-      health: "",
-      image: "",
-      image_credit: "",
-      image_credit_url: "",
-      extra_info: "",
-    };
 
-    players.push(player);
+    if (!players[id]) {
+      const name = _.get(tableRow[0], LEVEL_2_DATA_PATH);
+      const position = _.get(tableRow[1], LEVEL_1_DATA_PATH);
+      const height = _.get(tableRow[2], LEVEL_1_DATA_PATH);
+      const player = {
+        id,
+        name,
+        position,
+        height,
+        team,
+        health: "",
+        image: "",
+        image_credit: "",
+        image_credit_url: "",
+        extra_info: "",
+      };
+
+      players[id] = player;
+    }
   });
 
   return players;
@@ -73,7 +76,7 @@ async function scrapePlayersFromDailyLeaders(dailyLeadersUrl) {
     const body = await response.text();
     const $ = cheerio.load(body);
     const listItems = $(".sortable tbody tr");
-    const players = [];
+    const players = {};
     listItems.each((idx, el) => {
       const tableRow = $(el).children("td");
 
@@ -81,60 +84,62 @@ async function scrapePlayersFromDailyLeaders(dailyLeadersUrl) {
         .replace("/players/", "")
         .replace(".html", "")
         .split("/")[1];
-      const team = _.get(tableRow[1], LEVEL_2_DATA_PATH);
-      const court = _.get(tableRow[2], LEVEL_1_DATA_PATH) === "@" ? "A" : "H";
-      const opp = _.get(tableRow[3], LEVEL_2_DATA_PATH);
-      const gp = 1;
-      const result = _.get(tableRow[4], LEVEL_2_DATA_PATH);
-      const min = moment
-        .duration(_.get(tableRow[5], LEVEL_1_DATA_PATH))
-        .asHours();
-      const fgm = _.get(tableRow[6], LEVEL_1_DATA_PATH);
-      const fga = _.get(tableRow[7], LEVEL_1_DATA_PATH);
-      const fgpct = _.get(tableRow[8], LEVEL_1_DATA_PATH, "0");
-      const tpm = _.get(tableRow[9], LEVEL_1_DATA_PATH);
-      const tpa = _.get(tableRow[10], LEVEL_1_DATA_PATH);
-      const tppct = _.get(tableRow[11], LEVEL_1_DATA_PATH, "0");
-      const ftm = _.get(tableRow[12], LEVEL_1_DATA_PATH);
-      const fta = _.get(tableRow[13], LEVEL_1_DATA_PATH);
-      const ftpct = _.get(tableRow[14], LEVEL_1_DATA_PATH, "0");
-      const oreb = _.get(tableRow[15], LEVEL_1_DATA_PATH);
-      const dreb = _.get(tableRow[16], LEVEL_1_DATA_PATH);
-      const treb = _.get(tableRow[17], LEVEL_1_DATA_PATH);
-      const ast = _.get(tableRow[18], LEVEL_1_DATA_PATH);
-      const stl = _.get(tableRow[19], LEVEL_1_DATA_PATH);
-      const blk = _.get(tableRow[20], LEVEL_1_DATA_PATH);
-      const tov = _.get(tableRow[21], LEVEL_1_DATA_PATH);
-      const pts = _.get(tableRow[23], LEVEL_1_DATA_PATH);
+      if (!players[playerId]) {
+        const team = _.get(tableRow[1], LEVEL_2_DATA_PATH);
+        const court = _.get(tableRow[2], LEVEL_1_DATA_PATH) === "@" ? "A" : "H";
+        const opp = _.get(tableRow[3], LEVEL_2_DATA_PATH);
+        const gp = 1;
+        const result = _.get(tableRow[4], LEVEL_2_DATA_PATH);
+        const min = moment
+          .duration(_.get(tableRow[5], LEVEL_1_DATA_PATH))
+          .asHours();
+        const fgm = _.get(tableRow[6], LEVEL_1_DATA_PATH);
+        const fga = _.get(tableRow[7], LEVEL_1_DATA_PATH);
+        const fgpct = _.get(tableRow[8], LEVEL_1_DATA_PATH, "0");
+        const tpm = _.get(tableRow[9], LEVEL_1_DATA_PATH);
+        const tpa = _.get(tableRow[10], LEVEL_1_DATA_PATH);
+        const tppct = _.get(tableRow[11], LEVEL_1_DATA_PATH, "0");
+        const ftm = _.get(tableRow[12], LEVEL_1_DATA_PATH);
+        const fta = _.get(tableRow[13], LEVEL_1_DATA_PATH);
+        const ftpct = _.get(tableRow[14], LEVEL_1_DATA_PATH, "0");
+        const oreb = _.get(tableRow[15], LEVEL_1_DATA_PATH);
+        const dreb = _.get(tableRow[16], LEVEL_1_DATA_PATH);
+        const treb = _.get(tableRow[17], LEVEL_1_DATA_PATH);
+        const ast = _.get(tableRow[18], LEVEL_1_DATA_PATH);
+        const stl = _.get(tableRow[19], LEVEL_1_DATA_PATH);
+        const blk = _.get(tableRow[20], LEVEL_1_DATA_PATH);
+        const tov = _.get(tableRow[21], LEVEL_1_DATA_PATH);
+        const pts = _.get(tableRow[23], LEVEL_1_DATA_PATH);
 
-      const player = {
-        playerId,
-        team,
-        court,
-        opp,
-        gp,
-        result,
-        min,
-        fgm,
-        fga,
-        fgpct,
-        tpm,
-        tpa,
-        tppct,
-        ftm,
-        fta,
-        ftpct,
-        oreb,
-        dreb,
-        treb,
-        ast,
-        stl,
-        blk,
-        tov,
-        pts,
-      };
+        const player = {
+          playerId,
+          team,
+          court,
+          opp,
+          gp,
+          result,
+          min,
+          fgm,
+          fga,
+          fgpct,
+          tpm,
+          tpa,
+          tppct,
+          ftm,
+          fta,
+          ftpct,
+          oreb,
+          dreb,
+          treb,
+          ast,
+          stl,
+          blk,
+          tov,
+          pts,
+        };
 
-      players.push(player);
+        players[playerId] = player;
+      }
     });
 
     return players;
