@@ -5,7 +5,7 @@ const PlayerService = require("./player-service");
 class TeamService {
   static async getTeams() {
     const teams = await sdv.nba.getTeamList();
-    return teams;
+    return teams.sports[0].leagues[0].teams;
   }
 
   static async getTeamPlayers(teamId) {

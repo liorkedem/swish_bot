@@ -1,6 +1,9 @@
 const _ = require("lodash");
 const BasketballReferenceService = require("../services/basketball-reference-service");
+const TeamService = require("../services/team-service");
 const SwishService = require("../services/swish-service");
+const { format } = require("morgan");
+const { forEach } = require("lodash");
 const TEAM_IDS = [
   "ATL",
   "BOS",
@@ -36,22 +39,14 @@ const TEAM_IDS = [
 
 class SwishController {
   static async addUpdatePlayersBasicInfo(req, res) {
-    const { season, teamId } = req.query;
     let players = {};
+    const teams = await TeamService.getTeams();
+    for (const { team } of teams) {
+      const { id: teamId } = team;
+      const teamPlayers = await TeamService.getTeamPlayers(teamId);
 
-    if (teamId) {
-      const teamPlayers = await BasketballReferenceService.getTeamPlayers(
-        teamId,
-        season
-      );
-      players = { ...teamPlayers };
-    } else {
-      for (const teamId of TEAM_IDS) {
-        const teamPlayers = await BasketballReferenceService.getTeamPlayers(
-          teamId,
-          season
-        );
-        players = { ...players, ...teamPlayers };
+      for (const player of teamPlayers) {
+        players[player.id] = player;
       }
     }
 

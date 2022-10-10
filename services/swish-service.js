@@ -23,7 +23,7 @@ class SwishService {
       },
     };
 
-    // const response = await fetch(SWISH_MACHINE_URL, fetchOptions);
+    const response = await fetch(SWISH_MACHINE_URL, fetchOptions);
     return body;
   }
 }
