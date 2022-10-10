@@ -4,7 +4,61 @@ const StatsCalculationService = require("./stats-calculation-service");
 const StatsParserService = require("./stats-parser-service");
 
 class GameService {
-  static async gatGamePlayersBoxScore(gameId) {
+  static async getGamePlayersStats(gameId) {
+    const gamePlayByPLay = await gatGamePlayByPLay(gameId);
+    const gameAthletes = getGameAthletes(gamePlayByPLay);
+    const statsCategories = getStatsCategories(gamePlayByPLay);
+    const gamePlayersStats = {};
+    let teamIndex = 0;
+    let oppIndex = 1;
+    for (const teamAthletes of gameAthletes) {
+      const court = gamePlayByPLay.teams[teamIndex].homeAway
+        .substring(0, 1)
+        .toUpperCase();
+
+      const result = gamePlayByPLay.teams[teamIndex].winner ? "W" : "L";
+      const team = gamePlayByPLay.teams[teamIndex].team.abbreviation;
+      const opp = gamePlayByPLay.teams[oppIndex].team.abbreviation;
+      for (const athlete of teamAthletes) {
+        const playerBoxScore = gatGamePlayerBoxScore(athlete, statsCategories);
+        const playerId = athlete.athlete.id;
+        const playerKey = playerId;
+
+        gamePlayersStats[playerKey] = {
+          playerId,
+          team,
+          court,
+          opp,
+          gp: 1,
+          result,
+          min: playerBoxScore.MIN,
+          fgm: playerBoxScore.FGM,
+          fga: playerBoxScore.FGA,
+          fgpct: playerBoxScore.FGP,
+          tpm: playerBoxScore["3PTM"],
+          tpa: playerBoxScore["3PTA"],
+          tppct: playerBoxScore["3PTP"],
+          ftm: playerBoxScore.FTM,
+          fta: playerBoxScore.FTA,
+          ftpct: playerBoxScore.FTP,
+          oreb: playerBoxScore.OREB,
+          dreb: playerBoxScore.DREB,
+          treb: playerBoxScore.REB,
+          ast: playerBoxScore.AST,
+          stl: playerBoxScore.STL,
+          blk: playerBoxScore.BLK,
+          tov: playerBoxScore.TOV,
+          pts: playerBoxScore.PTS,
+        };
+      }
+      teamIndex++;
+      oppIndex--;
+    }
+
+    return gamePlayersStats;
+  }
+
+  static async getGamePlayersBoxScore(gameId) {
     const gamePlayByPLay = await gatGamePlayByPLay(gameId);
     const gameAthletes = getGameAthletes(gamePlayByPLay);
     const statsCategories = getStatsCategories(gamePlayByPLay);

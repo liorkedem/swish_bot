@@ -4,9 +4,16 @@ const GameRecapsService = require("../services/game-recaps-service");
 const { PERFORMANCE_THRESHOLDS } = require("../constants/stats-constants");
 
 class GameController {
+  static async getGamePlayersStats(req, res) {
+    const { gameId } = req.query;
+    const gamePlayersStats = await GameService.getGamePlayersStats(gameId);
+
+    res.json(gamePlayersStats);
+  }
+
   static async getGameTopPlayers(req, res) {
     const { gameId } = req.query;
-    const playersBoxScore = await GameService.gatGamePlayersBoxScore(gameId);
+    const playersBoxScore = await GameService.getGamePlayersBoxScore(gameId);
     const topPlayersBoxScore = _.pickBy(playersBoxScore, (playerBoxScore) => {
       return (
         playerBoxScore.DFS >= PERFORMANCE_THRESHOLDS.DFS.GOOD ||

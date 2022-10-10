@@ -20,6 +20,7 @@ router.get("/health", function (req, res, next) {
 router.get("/get-ended-games", ScheduleController.getEndedGames);
 router.get("/get-non-ended-games", ScheduleController.getNonEndedGames);
 router.get("/get-game-top-players", GameController.getGameTopPlayers);
+router.get("/get-game-players-stats", GameController.getGamePlayersStats);
 router.get("/get-team-players", TeamController.getTeamPlayers);
 router.get("/get-player", PlayerController.getPlayer);
 // router.get("/get-team-players", BasketballReferenceController.getTeamPlayers);
